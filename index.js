@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 const dbConfig = {
-    connectionString: 'Driver={SQL Server};Server=localhost\\SQLEXPRESS;Database=azura;Trusted_Connection=Yes;',
+    connectionString: 'Driver={SQL Server};Server=localhost\\SQLEXPRESS;Database=Azura;Trusted_Connection=Yes;',
     driver: 'msnodesqlv8'
 };
 
