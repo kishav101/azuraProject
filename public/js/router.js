@@ -1,6 +1,6 @@
 import { setupAddVehicleHandler } from './captureVehicleForm.js';
 import { fetchAndDisplayVehicles } from './displayVehicleForm.js'
-import { setupSearchHandler } from './displayVehicleForm.js'
+import { setupSearchHandler, refreshHandler } from './displayVehicleForm.js'
 
 
 document.addEventListener('click', (e) => {
@@ -72,6 +72,7 @@ const urlLocationHandler = async () => {
     if (location === "/viewVehicles") {
         fetchAndDisplayVehicles();
         setupSearchHandler();
+        refreshHandler();
     }
 
     setActiveNav();

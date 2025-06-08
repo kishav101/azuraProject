@@ -14,12 +14,13 @@ export async function fetchAndDisplayVehicles() {
         <td>${vehicle?.KM}</td>
         <td>${vehicle?.Color}</td>
         <td>${vehicle?.Location}</td>
-        <td>${vehicle?.Value}</td>
-      `;
+        <td>R${vehicle?.Value}</td>
+    `;
             tableBody.appendChild(row);
         });
+
     } catch (error) {
-        alert('Error fetching vehicles, please try refeshing.');
+        showToast('Error fetching vehicles, please try refeshing.', 3000, "#DC4C64");
     }
 }
 
@@ -27,31 +28,45 @@ export function setupSearchHandler() {
     const addBtn = document.querySelector('.search-vehicle-btn');
     if (!addBtn) return;
 
-    addBtn.addEventListener('click', async () => {
-        const id = document.getElementById('vSearchId').value;
-        const resultField = document.getElementById('searchResult');
-        if (!isValidPositiveInt(id)) {
-            showToast('Please capture a valid VehicleID in format of digits.', 3000, "#DC4C64");
-            return;
-        }
-        try {
-            const headers = {
-                'Content-Type': 'application/json'
-            }
-            fetch('http://localhost:3000/getAllDataById', {
-                method: 'POST',
-                headers: headers,
-                body: JSON.stringify({ id: id })
-            })
-                .then(res => res.json())
-                .then(data => {
-                    resultField.value = data[0]?.KM === undefined ? "VehicleId Not Found" : data[0]?.KM + " KM" ?? "Result"
-                });
+    addBtn.addEventListener('click', searchVehicle);
+}
 
-        } catch (error) {
-            showToast('An error occurred while sending the data.', 3000, "#DC4C64");
-        }
+export function refreshHandler() {
+    const refreshBtn = document.querySelector('.refresh-vehicle-btn');
+    if (!refreshBtn) return;
+
+    refreshBtn.addEventListener('click', () =>{
+        fetchAndDisplayVehicles()
+        .then((res) => {
+              showToast('Refresh complete.', 3000, "#14A44D");
+        })
     });
+}
+
+const searchVehicle = async () => {
+    const id = document.getElementById('vSearchId').value;
+    const resultField = document.getElementById('searchResult');
+    if (!isValidPositiveInt(id)) {
+        showToast('Please capture a valid VehicleID in format of digits.', 3000, "#DC4C64");
+        return;
+    }
+    try {
+        const headers = {
+            'Content-Type': 'application/json'
+        }
+        fetch('http://localhost:3000/getAllDataById', {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({ id: id })
+        })
+            .then(res => res.json())
+            .then(data => {
+                resultField.value = data[0]?.KM === undefined ? "VehicleId Not Found" : data[0]?.KM + " KM" ?? "Result"
+            });
+
+    } catch (error) {
+        showToast('An error occurred while sending the data.', 3000, "#DC4C64");
+    }
 }
 
 const isValidPositiveInt = (value) => {
