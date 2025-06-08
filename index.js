@@ -28,7 +28,7 @@ app.get('/getAllData', async (req, res) => {
     }
 });
 
-app.post('/getAllDataById', async (req, res) => {
+app.post('/getDataById', async (req, res) => {
     let conn = null;
     try {
         const { id } = req.body;
@@ -76,7 +76,6 @@ app.post('/insertData', async (req, res) => {
 app.get('/viewVehicles', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
-
 
 app.listen(3000, () => {
     console.log("server has started on port 3000");

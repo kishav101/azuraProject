@@ -11,7 +11,7 @@ export async function fetchAndDisplayVehicles() {
             tableBody.appendChild(row);
             return;
         }
-        
+
         vehicles.forEach(vehicle => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -61,7 +61,7 @@ const searchVehicle = async () => {
         const headers = {
             'Content-Type': 'application/json'
         }
-        fetch('http://localhost:3000/getAllDataById', {
+        fetch('http://localhost:3000/getDataById', {
             method: 'POST',
             headers: headers,
             body: JSON.stringify({ id: id })
@@ -77,8 +77,18 @@ const searchVehicle = async () => {
 }
 
 const isValidPositiveInt = (value) => {
-    const num = Number(value);
-    return Number.isInteger(num) && num > 0;
+    const idField = document.getElementById('vSearchId');
+    const idValue = idField.value.trim();
+    idField.style.border = '';
+
+    const num = Number(idValue);
+    const isValid = Number.isInteger(num) && num > 0;
+
+    if (!isValid) {
+        idField.style.border = '2px solid red';
+    }
+
+    return isValid;
 }
 
 const showToast = (message, duration = 3000, backgroundColor = '#323232') => {

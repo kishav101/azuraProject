@@ -39,24 +39,38 @@ export function setupAddVehicleHandler() {
     });
 }
 
-function validateVehicleData(data) {
-    const stringFields = ['make', 'model', 'color', 'location'];
-    for (const field of stringFields) {
-        if (!data[field] || data[field].trim() === '') {
-            return false;
+function validateVehicleData() {
+    const fields = {
+        make: document.getElementById('vMake'),
+        model: document.getElementById('vModel'),
+        km: document.getElementById('vMileage'),
+        color: document.getElementById('vColor'),
+        location: document.getElementById('vLocation'),
+        value: document.getElementById('vValue')
+    };
+
+    let isValid = true;
+    Object.values(fields).forEach(field => field.style.border = '');
+
+    for (const [key, field] of Object.entries(fields)) {
+        const value = field.value.trim();
+
+        if ((key === 'km' || key === 'value')) {
+            
+            const num = Number(value);
+            if (!Number.isInteger(num) || num <= 0) {
+                field.style.border = '2px solid red';
+                isValid = false;
+            }
+        } else if (value === '') {
+            field.style.border = '2px solid red';
+            isValid = false;
         }
     }
-    const intRegex = /^[1-9]\d*$/;
-    if (!intRegex.test(data.km)) {
-        return false;
-    }
 
-    if (!intRegex.test(data.value)) {
-        return false;
-    }
-
-    return true;
+    return isValid;
 }
+
 
 function showToast(message, duration = 3000, backgroundColor = '#323232') {
     const toast = document.createElement('div');
@@ -64,7 +78,7 @@ function showToast(message, duration = 3000, backgroundColor = '#323232') {
     toast.textContent = message;
     toast.style.backgroundColor = backgroundColor;
     document.body.appendChild(toast);
-    
+
     setTimeout(() => toast.classList.add('show'), 100);
     setTimeout(() => {
         toast.classList.remove('show');
