@@ -2,9 +2,16 @@ export async function fetchAndDisplayVehicles() {
     try {
         const response = await fetch('http://localhost:3000/getAllData');
         const vehicles = await response.json();
-
         const tableBody = document.getElementById('vehicleTableBody');
         tableBody.innerHTML = '';
+
+        if (!vehicles || vehicles.length === 0) {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td colspan="7" style="text-align: center; font-weight: bold; color: #999;">No items found</td>`;
+            tableBody.appendChild(row);
+            return;
+        }
+        
         vehicles.forEach(vehicle => {
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -35,11 +42,11 @@ export function refreshHandler() {
     const refreshBtn = document.querySelector('.refresh-vehicle-btn');
     if (!refreshBtn) return;
 
-    refreshBtn.addEventListener('click', () =>{
+    refreshBtn.addEventListener('click', () => {
         fetchAndDisplayVehicles()
-        .then((res) => {
-              showToast('Refresh complete.', 3000, "#14A44D");
-        })
+            .then((res) => {
+                showToast('Refresh complete.', 3000, "#14A44D");
+            })
     });
 }
 

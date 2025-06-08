@@ -19,9 +19,6 @@ app.get('/getAllData', async (req, res) => {
     try {
         conn = await sql.connect(dbConfig);
         const result = await conn.request().query("SELECT * FROM vehiclestbl");
-        if (!result.recordset.length) {
-            return res.status(404).json({ success: false, message: "Vehicle not found" });
-        }
         res.json(result.recordset);
     } catch (e) {
         console.error(e);
