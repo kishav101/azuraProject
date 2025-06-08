@@ -31,14 +31,14 @@ export async function fetchAndDisplayVehicles() {
     }
 }
 
-export function setupSearchHandler() {
+export const setupSearchHandler = () => {
     const addBtn = document.querySelector('.search-vehicle-btn');
     if (!addBtn) return;
 
     addBtn.addEventListener('click', searchVehicle);
 }
 
-export function refreshHandler() {
+export const refreshHandler = () => {
     const refreshBtn = document.querySelector('.refresh-vehicle-btn');
     if (!refreshBtn) return;
 

@@ -28,6 +28,7 @@ export function setupAddVehicleHandler() {
             });
             const result = await response.json();
             if (response.ok) {
+                showSuccessMessage();
                 showToast('Vehicle inserted successfully.', 3000, "#14A44D");
             } else {
                 showToast('Failed to add vehicle.', 3000, "#DC4C64");
@@ -39,7 +40,12 @@ export function setupAddVehicleHandler() {
     });
 }
 
-function validateVehicleData() {
+const showSuccessMessage = () => {
+    const msg = document.getElementById('successMsg');
+    msg.style.display = 'block';
+}
+
+const validateVehicleData = () => {
     const fields = {
         make: document.getElementById('vMake'),
         model: document.getElementById('vModel'),
@@ -56,7 +62,7 @@ function validateVehicleData() {
         const value = field.value.trim();
 
         if ((key === 'km' || key === 'value')) {
-            
+
             const num = Number(value);
             if (!Number.isInteger(num) || num <= 0) {
                 field.style.border = '2px solid red';
