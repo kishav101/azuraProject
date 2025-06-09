@@ -43,6 +43,10 @@ export function setupAddVehicleHandler() {
 const showSuccessMessage = () => {
     const msg = document.getElementById('successMsg');
     msg.style.display = 'block';
+
+    setTimeout(() => {
+        msg.style.display = 'none';
+    }, 3000);
 }
 
 const validateVehicleData = () => {
